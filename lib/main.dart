@@ -42,34 +42,47 @@ class ProteinSourcesScreen extends StatefulWidget {
   ProteinSourcesScreenState createState() => ProteinSourcesScreenState();
 }
 
+class Meal {
+  String name;
+  int timesToEat;
+  int timesEaten;
+
+  Meal({
+    required this.name,
+    required this.timesToEat,
+    this.timesEaten = 0,
+  });
+
+  // Verifica se è stato mangiato abbastanza volte
+  bool get isComplete => timesEaten >= timesToEat;
+}
+
 class ProteinSourcesScreenState extends State<ProteinSourcesScreen> {
-  // Lista di fonti proteiche
-  final List<String> proteinSources = [
-    'Pollo',
-    'Manzo',
-    'Pesce',
-    'Tofu',
-    'Uova',
-    'Legumi',
+  // Lista degli alimenti e numero di volte
+  List<Meal> meals = [
+    Meal(name: 'Cefalopodi', timesToEat: 1),
+    Meal(name: 'Pesce', timesToEat: 2),
+    Meal(name: 'Tonno conservato', timesToEat: 2),
+    Meal(name: 'Carne o affettati', timesToEat: 4),
+    Meal(name: 'Uova', timesToEat: 1),
+    Meal(name: 'Latticini', timesToEat: 2),
+    Meal(name: 'Legumi', timesToEat: 2),
   ];
 
-  // Stato di ciascuna checkbox
-  Map<String, bool> selectedSources = {};
-
-  @override
-  void initState() {
-    super.initState();
-    // Impostiamo tutte le checkbox come non selezionate
-    for (var source in proteinSources) {
-      selectedSources[source] = false;
-    }
+  void toggleMeal(int index) {
+    setState(() {
+      if (meals[index].timesEaten < meals[index].timesToEat) {
+        meals[index].timesEaten++;
+      } else {
+        meals[index].timesEaten--;
+      }
+    });
   }
 
-  // Funzione per resettare i checkbox
   void resetSelections() {
     setState(() {
-      for (var source in proteinSources) {
-        selectedSources[source] = false;
+      for (var meal in meals) {
+        meal.timesEaten = 0;
       }
     });
   }
@@ -77,27 +90,45 @@ class ProteinSourcesScreenState extends State<ProteinSourcesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Fonti Proteiche')),
+      appBar: AppBar(
+        title: Text('Dieta Settimanale'),
+      ),
       body: Column(
         children: [
-          // Lista dei checkbox
           Expanded(
-            child: ListView(
-              children:
-                  proteinSources.map((source) {
-                    return CheckboxListTile(
-                      title: Text(source),
-                      value: selectedSources[source],
-                      onChanged: (bool? value) {
-                        setState(() {
-                          selectedSources[source] = value!;
-                        });
-                      },
-                    );
-                  }).toList(),
+            child: ListView.builder(
+              itemCount: meals.length,
+              itemBuilder: (context, index) {
+                double progress = meals[index].timesEaten / meals[index].timesToEat;
+
+                return ListTile(
+                  title: Text(meals[index].name),
+                  subtitle: Text(
+                    'Mangiare ${meals[index].timesToEat} volte, mangiate ${meals[index].timesEaten} volte',
+                  ),
+                  trailing: Column(
+                    children: [
+                      // Barra di progressione
+                      SizedBox(
+                        width: 50,
+                        height: 20,
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          color: Colors.green,
+                          backgroundColor: Colors.grey[300],
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () => toggleMeal(index),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
-          // Bottone per resettare i checkbox
+          // Bottone per resettare le selezioni
           Container(
             margin: const EdgeInsets.only(bottom: 50.0),
             child: OutlinedButton(
