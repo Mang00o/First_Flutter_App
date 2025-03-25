@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
 
 class ProteinSourcesScreen extends StatefulWidget {
   const ProteinSourcesScreen({super.key});
-  
+
   @override
   ProteinSourcesScreenState createState() => ProteinSourcesScreenState();
 }
@@ -65,24 +65,47 @@ class ProteinSourcesScreenState extends State<ProteinSourcesScreen> {
     }
   }
 
+  // Funzione per resettare i checkbox
+  void resetSelections() {
+    setState(() {
+      for (var source in proteinSources) {
+        selectedSources[source] = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Fonti Proteiche'),
-      ),
-      body: ListView(
-        children: proteinSources.map((source) {
-          return CheckboxListTile(
-            title: Text(source),
-            value: selectedSources[source],
-            onChanged: (bool? value) {
-              setState(() {
-                selectedSources[source] = value!;
-              });
-            },
-          );
-        }).toList(),
+      appBar: AppBar(title: Text('Fonti Proteiche')),
+      body: Column(
+        children: [
+          // Lista dei checkbox
+          Expanded(
+            child: ListView(
+              children:
+                  proteinSources.map((source) {
+                    return CheckboxListTile(
+                      title: Text(source),
+                      value: selectedSources[source],
+                      onChanged: (bool? value) {
+                        setState(() {
+                          selectedSources[source] = value!;
+                        });
+                      },
+                    );
+                  }).toList(),
+            ),
+          ),
+          // Bottone per resettare i checkbox
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: resetSelections, // Quando premuto, resetta
+              child: Text('Resetta Selezioni'),
+            ),
+          ),
+        ],
       ),
     );
   }
