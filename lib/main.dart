@@ -98,10 +98,16 @@ class ProteinSourcesScreenState extends State<ProteinSourcesScreen> {
             ),
           ),
           // Bottone per resettare i checkbox
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
+          Container(
+            margin: const EdgeInsets.only(bottom: 50.0),
+            child: OutlinedButton(
               onPressed: resetSelections, // Quando premuto, resetta
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(
+                  width: 1.5, // Imposta lo spessore del bordo
+                  color: Colors.black, // Imposta il colore del bordo
+                ),
+              ),
               child: Text('Resetta Selezioni'),
             ),
           ),
