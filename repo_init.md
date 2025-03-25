@@ -36,5 +36,5 @@ git flow init
 
 ### 7. Aggiungere e committare i file del progetto Flutter
 ```sh
-git push origin develop
+git push -u origin develop
 ```
