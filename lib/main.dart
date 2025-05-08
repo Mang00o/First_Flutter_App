@@ -7,19 +7,24 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  Future<List<Map<String, dynamic>>> loadWorkout() async {
+  Future<Map<String, dynamic>> loadWorkout() async {
     final jsonString = await rootBundle.loadString('assets/workouts.json');
     final data = json.decode(jsonString);
-    final firstDay = data['weeks'][0]['days'][0]['exercises'] as List<dynamic>;
-    return firstDay.map((e) => e as Map<String, dynamic>).toList();
+    final month = data['month'];
+    final week = data['weeks'][0]['week'];
+    final day = data['weeks'][0]['days'][0]['day'];
+    final exercises = data['weeks'][0]['days'][0]['exercises'] as List<dynamic>;
+    return {
+      'title': 'M$month-W$week-D$day',
+      'exercises': exercises.map((e) => e as Map<String, dynamic>).toList(),
+    };
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Primo Allenamento')),
-        body: FutureBuilder<List<Map<String, dynamic>>>(
+        body: FutureBuilder<Map<String, dynamic>>(
           future: loadWorkout(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -27,18 +32,20 @@ class MyApp extends StatelessWidget {
             } else if (snapshot.hasError) {
               return Center(child: Text('Errore: ${snapshot.error}'));
             } else {
-              final exercises = snapshot.data!;
-              return ListView.builder(
-                itemCount: exercises.length,
-                itemBuilder: (context, index) {
-                  final ex = exercises[index];
-                  return ListTile(
-                    title: Text(ex['name']),
-                    subtitle: Text(
-                      '${ex['sets']}x${ex['reps']} @ ${ex['weight']}kg - ${ex['variation']}',
-                    ),
-                  );
-                },
+              final title = snapshot.data!['title'];
+              final exercises = snapshot.data!['exercises'] as List<Map<String, dynamic>>;
+              return Scaffold(
+                appBar: AppBar(title: Text(title)),
+                body: ListView.builder(
+                  itemCount: exercises.length,
+                  itemBuilder: (context, index) {
+                    final ex = exercises[index];
+                    return ListTile(
+                      title: Text(ex['name']),
+                      subtitle: Text('${ex['sets']}x${ex['reps']} @ ${ex['weight']}kg - ${ex['variation']}'),
+                    );
+                  },
+                ),
               );
             }
           },
