@@ -48,6 +48,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     });
   }
 
+  void prevDay() {
+    setState(() {
+      currentDayIndex = (currentDayIndex - 1 + days.length) % days.length;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (days.isEmpty) {
@@ -73,9 +79,21 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: nextDay,
-        child: Icon(Icons.navigate_next),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'prev',
+            onPressed: prevDay,
+            child: Icon(Icons.navigate_before),
+          ),
+          SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: 'next',
+            onPressed: nextDay,
+            child: Icon(Icons.navigate_next),
+          ),
+        ],
       ),
     );
   }
