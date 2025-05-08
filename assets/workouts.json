@@ -1,0 +1,75 @@
+{
+    "month": 1,
+    "weeks": [
+      {
+        "week": 1,
+        "days": [
+          {
+            "day": 1,
+            "exercises": [
+              {
+                "name": "Clean + Jerk",
+                "sets": 3,
+                "reps": "5+1",
+                "weight": 85,
+                "variation": "None"
+              },
+              {
+                "name": "Front Squat Pause in Bottom",
+                "sets": 3,
+                "reps": "5",
+                "weight": 105,
+                "variation": "Pause in Bottom"
+              }
+            ]
+          },
+          {
+            "day": 2,
+            "exercises": [
+              {
+                "name": "Clean + Jerk",
+                "sets": 3,
+                "reps": "1+5",
+                "weight": 80,
+                "variation": "None"
+              },
+              {
+                "name": "Wall Walk",
+                "sets": 3,
+                "reps": "5",
+                "weight": 0,
+                "variation": "None"
+              },
+              {
+                "name": "Pull Ups",
+                "sets": 4,
+                "reps": "6",
+                "weight": 0,
+                "variation": "None"
+              }
+            ]
+          },
+          {
+            "day": 3,
+            "exercises": [
+              {
+                "name": "Snatch",
+                "sets": 3,
+                "reps": "5",
+                "weight": 70,
+                "variation": "None"
+              },
+              {
+                "name": "Overhead Squat Pause in Bottom",
+                "sets": 3,
+                "reps": "3",
+                "weight": 75,
+                "variation": "Pause in Bottom"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
