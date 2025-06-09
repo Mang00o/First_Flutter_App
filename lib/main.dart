@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'pages/workout_page.dart';
 import 'pages/tracker_page.dart';
 import 'pages/statistic_page.dart';
+import 'pages/settings_page.dart';
+import 'pages/profile_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,13 +38,19 @@ class HomePage extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
-                // TODO: azione impostazioni
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SettingsPage()),
+                );
               },
             ),
             IconButton(
               icon: const Icon(Icons.person),
               onPressed: () {
-                // TODO: azione profilo
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProfilePage()),
+                );
               },
             ),
             IconButton(
